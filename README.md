@@ -13,7 +13,8 @@ This project demonstrates:
 - Writing realistic OLTP/reporting queries (velocity checks, aggregations,
   joins, partial indexes)
 - Reading and interpreting `EXPLAIN (ANALYZE, BUFFERS)` output
-- Measuring and communicating a concrete performance improvement
+- Measuring and communicating real query-performance changes
+- Understanding why indexing improves some workloads but may not benefit every query
 
 ## Setup
 
@@ -92,3 +93,27 @@ Outputs land in `reports/`:
   timing.
 - Wrap `generate_report.py`'s output in a small FastAPI + HTML page for a
   live dashboard instead of a static chart.
+
+  ## Benchmark Results
+
+Benchmarks were run against a synthetic payment-style transactions dataset. Each query was executed 5 times and the median latency was recorded.
+
+| Query | Before Index | After Index | Improvement |
+|---|---:|---:|---:|
+| `velocity_check_by_card` | 95.66 ms | 0.61 ms | **99.4%** |
+| `category_spend_range` | 105.75 ms | 13.53 ms | **87.2%** |
+| `declined_by_country` | 129.50 ms | 1.07 ms | **99.2%** |
+| `merchant_join_report` | 122.78 ms | 133.75 ms | **-8.9%** |
+### Observations
+
+- The card-velocity query improved by 99.4% after creating a composite index on `(card_number, created_at)`
+
+- The category-spend query improved by 87.2% using a composite index on `(merchant_category, created_at)`
+
+- The declined-transaction query improved by 99.2% using a partial index on declined transactions
+
+- The merchant join query became 8.9% slower after indexing (indexes are not always beneficial)
+
+- `EXPLAIN (ANALYZE, BUFFERS)` output is captured before and after indexing to inspect the query plans and database I/O behavior
+
+![Benchmark Results](reports/benchmark_chart.png)
