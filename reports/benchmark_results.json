@@ -1,0 +1,86 @@
+[
+  {
+    "name": "velocity_check_by_card",
+    "description": "Count a card's transactions in the last 5 minutes (fraud velocity check)",
+    "before_ms": 95.66,
+    "after_ms": 0.61,
+    "improvement_pct": 99.4,
+    "before_runs_ms": [
+      205.53,
+      92.35,
+      87.92,
+      95.66,
+      96.45
+    ],
+    "after_runs_ms": [
+      4.69,
+      0.7,
+      0.42,
+      0.48,
+      0.61
+    ]
+  },
+  {
+    "name": "category_spend_range",
+    "description": "Sum spend for a merchant category over a date range",
+    "before_ms": 105.75,
+    "after_ms": 13.53,
+    "improvement_pct": 87.2,
+    "before_runs_ms": [
+      107.67,
+      109.64,
+      105.31,
+      105.75,
+      104.22
+    ],
+    "after_runs_ms": [
+      16.26,
+      13.53,
+      12.95,
+      14.78,
+      13.09
+    ]
+  },
+  {
+    "name": "declined_by_country",
+    "description": "Find declined transactions for a specific country (partial index)",
+    "before_ms": 129.5,
+    "after_ms": 1.07,
+    "improvement_pct": 99.2,
+    "before_runs_ms": [
+      113.05,
+      129.5,
+      124.43,
+      137.9,
+      197.68
+    ],
+    "after_runs_ms": [
+      4.98,
+      1.18,
+      0.92,
+      1.07,
+      0.98
+    ]
+  },
+  {
+    "name": "merchant_join_report",
+    "description": "Join merchants + transactions for a category report",
+    "before_ms": 122.78,
+    "after_ms": 133.75,
+    "improvement_pct": -8.9,
+    "before_runs_ms": [
+      148.39,
+      115.98,
+      102.21,
+      122.78,
+      161.49
+    ],
+    "after_runs_ms": [
+      110.26,
+      127.1,
+      148.38,
+      147.99,
+      133.75
+    ]
+  }
+]

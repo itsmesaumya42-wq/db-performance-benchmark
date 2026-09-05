@@ -1,0 +1,8 @@
+Limit  (cost=0.41..231.18 rows=100 width=39) (actual time=0.075..0.275 rows=100.00 loops=1)
+  Buffers: shared hit=103
+  ->  Index Scan Backward using idx_declined_country on transactions  (cost=0.41..21352.95 rows=9253 width=39) (actual time=0.073..0.260 rows=100.00 loops=1)
+        Index Cond: ((country_code)::text = 'IN'::text)
+        Index Searches: 1
+        Buffers: shared hit=103
+Planning Time: 0.266 ms
+Execution Time: 0.309 ms

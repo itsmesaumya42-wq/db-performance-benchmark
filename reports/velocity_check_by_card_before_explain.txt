@@ -1,0 +1,12 @@
+Aggregate  (cost=11471.77..11471.78 rows=1 width=8) (actual time=77.520..87.629 rows=1.00 loops=1)
+  Buffers: shared hit=6305
+  ->  Gather  (cost=1000.00..11471.77 rows=1 width=0) (actual time=77.515..87.623 rows=0.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=6305
+        ->  Parallel Seq Scan on transactions  (cost=0.00..10471.67 rows=1 width=0) (actual time=37.691..37.692 rows=0.00 loops=3)
+              Filter: (((card_number)::text = '4111111111111111'::text) AND (created_at > (now() - '00:05:00'::interval)))
+              Rows Removed by Filter: 166667
+              Buffers: shared hit=6305
+Planning Time: 0.200 ms
+Execution Time: 87.674 ms

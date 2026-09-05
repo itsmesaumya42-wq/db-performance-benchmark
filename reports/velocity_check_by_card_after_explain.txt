@@ -1,0 +1,9 @@
+Aggregate  (cost=4.45..4.46 rows=1 width=8) (actual time=0.050..0.051 rows=1.00 loops=1)
+  Buffers: shared hit=3
+  ->  Index Only Scan using idx_card_created on transactions  (cost=0.43..4.45 rows=1 width=0) (actual time=0.048..0.048 rows=0.00 loops=1)
+        Index Cond: ((card_number = '4111111111111111'::text) AND (created_at > (now() - '00:05:00'::interval)))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=3
+Planning Time: 0.182 ms
+Execution Time: 0.081 ms

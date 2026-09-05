@@ -1,0 +1,18 @@
+Limit  (cost=10577.36..10589.01 rows=100 width=39) (actual time=105.182..117.174 rows=100.00 loops=1)
+  Buffers: shared hit=6379
+  ->  Gather Merge  (cost=10577.36..11654.91 rows=9252 width=39) (actual time=105.180..117.157 rows=100.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=6379
+        ->  Sort  (cost=9577.34..9586.97 rows=3855 width=39) (actual time=52.414..52.427 rows=89.67 loops=3)
+              Sort Key: created_at DESC
+              Sort Method: top-N heapsort  Memory: 37kB
+              Buffers: shared hit=6379
+              Worker 0:  Sort Method: top-N heapsort  Memory: 36kB
+              Worker 1:  Sort Method: top-N heapsort  Memory: 36kB
+              ->  Parallel Seq Scan on transactions  (cost=0.00..9430.00 rows=3855 width=39) (actual time=0.029..50.628 rows=3079.33 loops=3)
+                    Filter: (((status)::text = 'DECLINED'::text) AND ((country_code)::text = 'IN'::text))
+                    Rows Removed by Filter: 163587
+                    Buffers: shared hit=6305
+Planning Time: 0.168 ms
+Execution Time: 117.231 ms

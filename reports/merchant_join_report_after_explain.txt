@@ -1,0 +1,41 @@
+Limit  (cost=10193.27..10193.32 rows=20 width=57) (actual time=136.368..147.762 rows=20.00 loops=1)
+  Buffers: shared hit=6333
+  ->  Sort  (cost=10193.27..10193.44 rows=69 width=57) (actual time=136.365..147.756 rows=20.00 loops=1)
+        Sort Key: (sum(t.amount)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=6333
+        ->  Finalize GroupAggregate  (cost=10169.58..10191.43 rows=69 width=57) (actual time=135.960..147.692 rows=69.00 loops=1)
+              Group Key: m.merchant_name
+              Buffers: shared hit=6333
+              ->  Gather Merge  (cost=10169.58..10188.91 rows=166 width=57) (actual time=135.937..147.486 rows=207.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=6333
+                    ->  Sort  (cost=9169.55..9169.73 rows=69 width=57) (actual time=84.537..84.546 rows=69.00 loops=3)
+                          Sort Key: m.merchant_name
+                          Sort Method: quicksort  Memory: 32kB
+                          Buffers: shared hit=6333
+                          Worker 0:  Sort Method: quicksort  Memory: 32kB
+                          Worker 1:  Sort Method: quicksort  Memory: 32kB
+                          ->  Partial HashAggregate  (cost=9166.58..9167.45 rows=69 width=57) (actual time=84.152..84.200 rows=69.00 loops=3)
+                                Group Key: m.merchant_name
+                                Batches: 1  Memory Usage: 56kB
+                                Buffers: shared hit=6317
+                                Worker 0:  Batches: 1  Memory Usage: 56kB
+                                Worker 1:  Batches: 1  Memory Usage: 56kB
+                                ->  Hash Join  (cost=11.11..8950.96 rows=28750 width=31) (actual time=1.129..68.183 rows=23107.33 loops=3)
+                                      Hash Cond: (t.merchant_id = m.merchant_id)
+                                      Buffers: shared hit=6317
+                                      ->  Parallel Seq Scan on transactions t  (cost=0.00..8388.33 rows=208333 width=18) (actual time=0.020..21.621 rows=166666.67 loops=3)
+                                            Buffers: shared hit=6305
+                                      ->  Hash  (cost=10.25..10.25 rows=69 width=21) (actual time=1.089..1.090 rows=69.00 loops=3)
+                                            Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                            Buffers: shared hit=12
+                                            ->  Seq Scan on merchants m  (cost=0.00..10.25 rows=69 width=21) (actual time=0.940..1.045 rows=69.00 loops=3)
+                                                  Filter: ((category)::text = 'DINING'::text)
+                                                  Rows Removed by Filter: 431
+                                                  Buffers: shared hit=12
+Planning:
+  Buffers: shared hit=14
+Planning Time: 0.491 ms
+Execution Time: 147.870 ms

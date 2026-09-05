@@ -1,0 +1,14 @@
+Finalize GroupAggregate  (cost=1000.00..12535.25 rows=1 width=48) (actual time=104.699..116.494 rows=1.00 loops=1)
+  Buffers: shared hit=6305
+  ->  Gather  (cost=1000.00..12535.23 rows=2 width=48) (actual time=104.384..116.467 rows=3.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=6305
+        ->  Partial GroupAggregate  (cost=0.00..11535.03 rows=1 width=48) (actual time=57.964..57.965 rows=1.00 loops=3)
+              Buffers: shared hit=6305
+              ->  Parallel Seq Scan on transactions  (cost=0.00..11513.33 rows=4336 width=14) (actual time=0.037..56.648 rows=3553.00 loops=3)
+                    Filter: (((merchant_category)::text = 'ELECTRONICS'::text) AND (created_at <= now()) AND (created_at >= (now() - '30 days'::interval)))
+                    Rows Removed by Filter: 163114
+                    Buffers: shared hit=6305
+Planning Time: 0.192 ms
+Execution Time: 116.548 ms

@@ -1,0 +1,12 @@
+GroupAggregate  (cost=317.12..7169.89 rows=1 width=48) (actual time=12.904..12.905 rows=1.00 loops=1)
+  Buffers: shared hit=5224
+  ->  Bitmap Heap Scan on transactions  (cost=317.12..7117.84 rows=10407 width=14) (actual time=3.064..9.787 rows=10659.00 loops=1)
+        Recheck Cond: (((merchant_category)::text = 'ELECTRONICS'::text) AND (created_at >= (now() - '30 days'::interval)) AND (created_at <= now()))
+        Heap Blocks: exact=5169
+        Buffers: shared hit=5224
+        ->  Bitmap Index Scan on idx_category_created  (cost=0.00..314.52 rows=10407 width=0) (actual time=2.035..2.035 rows=10659.00 loops=1)
+              Index Cond: (((merchant_category)::text = 'ELECTRONICS'::text) AND (created_at >= (now() - '30 days'::interval)) AND (created_at <= now()))
+              Index Searches: 1
+              Buffers: shared hit=55
+Planning Time: 0.270 ms
+Execution Time: 13.352 ms
